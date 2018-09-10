@@ -15,11 +15,5 @@ const button = ({ value, customStyle = style, eHandler, className }) => {
     </div>
   );
 };
-/* 
-<div style={customStyle} className={'object-value'}>
-  <div className={'math--object'}>
-    <div className={'object-value object-margin'}>{value}</div>
-  </div>
-</div> 
-*/
+
 export default button;

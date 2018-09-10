@@ -12,16 +12,17 @@ import Erase from '../edit/erase';
 import ExpressionCreatorRow from './expression-creator-row';
 
 const flexStyle = { display: 'flex', alignItems: 'center' };
-const fraction = {
-  ...flexStyle,
-  'flex-direction': 'column',
-  'justify-content': 'space-between'
-};
+// const fraction = {
+//   ...flexStyle,
+//   'flex-direction': 'column',
+//   'justify-content': 'space-between'
+// };
 
 const mapStateToProps = state => ({
   create: { ...state.createState },
   expression: [...state.createState.createExpression],
-  target: state.createState.selected
+  selected: state.createState.selected,
+  last: state.createState.createExpression.slice(-1)[0]
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -37,11 +38,17 @@ class ExpressionCreator extends Component {
     this.props.createNumberAction({ add: true });
   }
   createMultiple() {
+    if (!this.props.expression[0]) return;
+    if (
+      this.props.last.hasOwnProperty('content') &&
+      !this.props.last.content[0]
+    )
+      return null;
     this.props.createNumberAction({ multi: true });
   }
   createBlock() {
-    const target = this.props.target || this.props.expression.length;
-    this.props.createBlockAction({ index: target });
+    const selected = this.props.selected || this.props.expression.length || 0;
+    this.props.createBlockAction({ index: selected });
   }
   enter = () => {
     this.props.enterAction(
@@ -52,6 +59,12 @@ class ExpressionCreator extends Component {
   erase = () => {
     this.props.eraseAction(true);
   };
+  notEmpty = () => this.props.last;
+  hasValue = () => this.props.last.hasOwnProperty('value');
+  hasContent = () => this.props.last.content.length;
+  showMulti = () => {
+    return this.notEmpty() && (this.hasValue() || this.hasContent());
+  };
   render() {
     return (
       <div>
@@ -59,22 +72,20 @@ class ExpressionCreator extends Component {
           <Container customStyle={flexStyle}> {'Select'} </Container>
           <Container customStyle={flexStyle}>
             <Button eHandler={this.createNumber.bind(this)} value={'± 2'} />
-            <Button eHandler={this.createMultiple.bind(this)} value={'× 3'} />
+            <Button
+              eHandler={this.createMultiple.bind(this)}
+              value={'× 3'}
+              className={this.showMulti() ? '' : 'opac3'}
+            />
             <Button
               eHandler={this.createBlock.bind(this)}
               value={'(4+5)'}
-              className={this.props.target ? 'highlight' : ''}
+              className={this.props.selected !== false ? 'highlight' : ''}
             />
           </Container>
           <Container customStyle={flexStyle}>
-            <Enter
-              nonZero={this.props.expression.length}
-              eHandler={this.enter}
-            />
-            <Erase
-              nonZero={this.props.expression.length}
-              eHandler={this.erase}
-            />
+            <Enter nonZero={this.notEmpty()} eHandler={this.enter} />
+            <Erase nonZero={this.notEmpty()} eHandler={this.erase} />
           </Container>
         </div>
         <ExpressionCreatorRow />

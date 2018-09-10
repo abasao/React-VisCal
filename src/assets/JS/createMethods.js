@@ -1,8 +1,7 @@
-import { createBlock, createNumber } from './number';
+import { createBlock } from './number';
 import methods from './methods';
-export default (createExp, { index }) => {
-  //   console.log(createExp.slice(-1)[0].hasOwnProperty('value'));
-  if (createExp.slice(-1)[0].hasOwnProperty('content')) {
+export default (createExp, { selected }, { index }) => {
+  if (createExp.length && selected !== false) {
     return {
       createExpression: [...filterEmpty(createExp)],
       selected: false

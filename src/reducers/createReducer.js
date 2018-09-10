@@ -9,14 +9,26 @@ import {
 
 import { createNumber } from '../assets/JS/number';
 import methods from '../assets/JS/methods';
-import createMethod, { filterEmpty } from '../assets/JS/createMethods';
+import createMethod from '../assets/JS/createMethods';
+
+const createNumberR = (state, GenN) => {
+  return state.selected === false
+    ? [...state.createExpression, new createNumber(GenN())]
+    : [
+        ...state.createExpression.map((x, i) => {
+          if (state.selected === i)
+            return { ...x, content: [...x.content, new createNumber(GenN())] };
+          return x;
+        })
+      ];
+};
 
 export default (state = {}, action) => {
   switch (action.type) {
     case CREATE_BLOCK_ACTION:
       return {
         ...state,
-        ...createMethod(state.createExpression, action.payload)
+        ...createMethod(state.createExpression, state, action.payload)
       };
     case CREATE_NUMBER_ACTION:
       const GenN = action.payload.add
@@ -24,7 +36,7 @@ export default (state = {}, action) => {
         : methods.xGen(state.genState - 1);
       return {
         ...state,
-        createExpression: [...state.createExpression, new createNumber(GenN())],
+        createExpression: createNumberR(state, GenN),
         genExpression: [...state.genExpression, GenN]
       };
     case TARGET_BLOCK_ACTION:

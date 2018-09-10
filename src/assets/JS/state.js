@@ -1,6 +1,3 @@
-import { Num, NumObj, EditObj } from './number';
-import mod from './methods';
-
 const State = {
   history: {
     targetId: false,

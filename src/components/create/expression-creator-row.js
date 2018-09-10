@@ -6,6 +6,7 @@ import Remove from '../edit/remove';
 import Container from '../math/button-container';
 import Operator from '../math/operator';
 import Term from '../math/term';
+import Parentheses from '../math/term';
 
 const mapStateToProps = state => ({
   createState: { ...state.createState },
@@ -17,9 +18,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class ExpressionCreatorRow extends Component {
-  createBlock({ target }) {
-    console.log('createblock');
-  }
   remove = () => {
     this.props.removeAction(true);
   };
@@ -46,7 +44,7 @@ class ExpressionCreatorRow extends Component {
     return (
       <Fragment key={i}>
         <Operator value={block.op} index={i} />
-        {this.contentRender(block.content)}
+        <Container>({this.contentRender(block.content)})</Container>
       </Fragment>
     );
   };
