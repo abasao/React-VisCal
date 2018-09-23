@@ -2,26 +2,32 @@ import mod from './/methods';
 const defaults = {
   createBlock: { op: '±', content: [] },
   createNumber: { op: '+', value: 1 },
-  container: { operator: '+', id: 'exp_null', root: false }
+  container: { operator: '+', id: 'exp_null', root: false },
+  fraction: { op: '±', numerator: [], denominator: [] }
 };
 
 export class createBlock {
-  constructor(params) {
-    Object.assign(this, defaults.createBlock, params);
+  constructor(args) {
+    Object.assign(this, defaults.createBlock, args);
   }
 }
 
 export class createNumber {
-  constructor(params) {
-    Object.assign(this, defaults.createNumber, params);
+  constructor(args) {
+    Object.assign(this, defaults.createNumber, args);
   }
 }
 
 //call this container, and the other BlockContainer
 export class ContainerObject {
   //keep root stuff here
-  constructor(params) {
-    Object.assign(this, defaults.container, params);
+  constructor(args) {
+    Object.assign(this, defaults.container, args);
+  }
+}
+export class Fraction {
+  constructor(args) {
+    Object.assign(this, defaults.fraction, args);
   }
 }
 

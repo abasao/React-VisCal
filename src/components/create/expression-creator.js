@@ -7,6 +7,8 @@ import { eraseAction } from '../../actions/edit/eraseAction';
 
 import Button from '../math/button';
 import Container from '../math/button-container';
+import Fraction from '../math/fraction';
+import Term from '../math/term';
 import Enter from '../edit/enter';
 import Erase from '../edit/erase';
 import ExpressionCreatorRow from './expression-creator-row';
@@ -82,6 +84,16 @@ class ExpressionCreator extends Component {
               value={'(4+5)'}
               className={this.props.selected !== false ? 'highlight' : ''}
             />
+            <div onClick={() => console.log('clicked')} className={'flex'}>
+              <Fraction>
+                <Container>
+                  <Term expression={{ op: '±', value: 6 }} index={1} />
+                </Container>
+                <Container>
+                  <Term expression={{ op: '±', value: 7 }} index={1} />
+                </Container>
+              </Fraction>
+            </div>
           </Container>
           <Container customStyle={flexStyle}>
             <Enter nonZero={this.notEmpty()} eHandler={this.enter} />

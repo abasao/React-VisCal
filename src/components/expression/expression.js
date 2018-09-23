@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Row from './expression-row';
 
 const mapStateToProps = state => ({
-  // targetCol: { ...state.historyState.targetId },
   history: { ...state.historyState },
   target: state.historyState.targetId,
   expression: { ...state.expressionState },
@@ -11,7 +10,6 @@ const mapStateToProps = state => ({
 });
 
 class ExpressionComponent extends Component {
-  hist = e => console.log(this.props.expCol);
   expressionRender = (expCollection, colId) => {
     if (!colId) return null;
     return (
@@ -27,7 +25,6 @@ class ExpressionComponent extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.hist}>History</button>
         {this.expressionRender(this.props.expCol.byId, this.props.expCol.colId)}
         {/* <Row
           col={this.props.expCol.colId}
